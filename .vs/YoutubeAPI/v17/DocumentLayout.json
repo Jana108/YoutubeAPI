@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1B63B300-3E89-44D0-BF64-42D972275E5C}|YoutubeAPI\\YoutubeAPI.csproj|d:\\faks\\sistemsko programiranje\\youtubeapi\\youtubeapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B63B300-3E89-44D0-BF64-42D972275E5C}|YoutubeAPI\\YoutubeAPI.csproj|solutionrelative:youtubeapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1B63B300-3E89-44D0-BF64-42D972275E5C}|YoutubeAPI\\YoutubeAPI.csproj|d:\\faks\\sistemsko programiranje\\youtubeapi\\youtubeapi\\utils\\logmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B63B300-3E89-44D0-BF64-42D972275E5C}|YoutubeAPI\\YoutubeAPI.csproj|solutionrelative:youtubeapi\\utils\\logmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B63B300-3E89-44D0-BF64-42D972275E5C}|YoutubeAPI\\YoutubeAPI.csproj|d:\\faks\\sistemsko programiranje\\youtubeapi\\youtubeapi\\utils\\loggerasync.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B63B300-3E89-44D0-BF64-42D972275E5C}|YoutubeAPI\\YoutubeAPI.csproj|solutionrelative:youtubeapi\\utils\\loggerasync.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B63B300-3E89-44D0-BF64-42D972275E5C}|YoutubeAPI\\YoutubeAPI.csproj|d:\\faks\\sistemsko programiranje\\youtubeapi\\youtubeapi\\applogic\\youtubeclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B63B300-3E89-44D0-BF64-42D972275E5C}|YoutubeAPI\\YoutubeAPI.csproj|solutionrelative:youtubeapi\\applogic\\youtubeclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B63B300-3E89-44D0-BF64-42D972275E5C}|YoutubeAPI\\YoutubeAPI.csproj|d:\\faks\\sistemsko programiranje\\youtubeapi\\youtubeapi\\applogic\\webapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B63B300-3E89-44D0-BF64-42D972275E5C}|YoutubeAPI\\YoutubeAPI.csproj|solutionrelative:youtubeapi\\applogic\\webapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,14 +35,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\YoutubeAPI\\Program.cs",
-              "RelativeDocumentMoniker": "YoutubeAPI\\Program.cs",
-              "ToolTip": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\YoutubeAPI\\Program.cs",
-              "RelativeToolTip": "YoutubeAPI\\Program.cs",
+              "Title": "LogMessage.cs",
+              "DocumentMoniker": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\YoutubeAPI\\Utils\\LogMessage.cs",
+              "RelativeDocumentMoniker": "YoutubeAPI\\Utils\\LogMessage.cs",
+              "ToolTip": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\YoutubeAPI\\Utils\\LogMessage.cs",
+              "RelativeToolTip": "YoutubeAPI\\Utils\\LogMessage.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-22T16:48:23.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LoggerAsync.cs",
+              "DocumentMoniker": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\YoutubeAPI\\Utils\\LoggerAsync.cs",
+              "RelativeDocumentMoniker": "YoutubeAPI\\Utils\\LoggerAsync.cs",
+              "ToolTip": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\YoutubeAPI\\Utils\\LoggerAsync.cs",
+              "RelativeToolTip": "YoutubeAPI\\Utils\\LoggerAsync.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T15:54:04.925Z",
+              "WhenOpened": "2024-06-22T16:48:21.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "YoutubeClient.cs",
+              "DocumentMoniker": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\YoutubeAPI\\AppLogic\\YoutubeClient.cs",
+              "RelativeDocumentMoniker": "YoutubeAPI\\AppLogic\\YoutubeClient.cs",
+              "ToolTip": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\YoutubeAPI\\AppLogic\\YoutubeClient.cs",
+              "RelativeToolTip": "YoutubeAPI\\AppLogic\\YoutubeClient.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-22T16:47:51.968Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "WebAPI.cs",
+              "DocumentMoniker": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\YoutubeAPI\\AppLogic\\WebAPI.cs",
+              "RelativeDocumentMoniker": "YoutubeAPI\\AppLogic\\WebAPI.cs",
+              "ToolTip": "D:\\faks\\sistemsko programiranje\\YoutubeAPI\\YoutubeAPI\\AppLogic\\WebAPI.cs",
+              "RelativeToolTip": "YoutubeAPI\\AppLogic\\WebAPI.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-22T16:47:16.106Z",
               "EditorCaption": ""
             }
           ]
