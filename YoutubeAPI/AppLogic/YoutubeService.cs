@@ -13,11 +13,22 @@ using Google.Apis.Services;
 
 namespace YoutubeAPI.Services
 {
-    public static class YoutubeClient
+    public class YoutubeService
     {
-        private static YouTubeService? _youtubeService = WebAPI._youtubeService;
+        private readonly YouTubeService _youtubeService = null!;
 
-        public static async Task<string[]> GetVideoCommentsAsync(string videoID)
+        private static readonly string apiKey = "AIzaSyD7TX0XdOkdGIFRzxixN2IhYcBSP6n43ek";
+
+        public YoutubeService()
+        {
+            _youtubeService = new YouTubeService(new BaseClientService.Initializer()
+            {
+                ApiKey = apiKey,
+                ApplicationName = "YouTubeCommentAnalyzer"
+            });
+        }
+
+        public async Task<string[]> GetVideoCommentsAsync(string videoID)
         {
             var request = _youtubeService!.CommentThreads.List("snippet");
             request.VideoId = videoID;

@@ -10,7 +10,7 @@ namespace SentimentModelTraining
     public class SentimentPrediction : SentimentData
     {
         [ColumnName("PredictedLabel")]
-        public bool Sentiment { get; set; }
+        public new bool Sentiment { get ; set; }
         public float Probability { get; set; }
         public float Score { get; set; }
     }

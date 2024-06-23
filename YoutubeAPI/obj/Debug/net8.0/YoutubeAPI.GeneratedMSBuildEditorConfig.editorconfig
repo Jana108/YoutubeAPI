@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = YoutubeAPI
-build_property.ProjectDir = D:\faks\sistemsko programiranje\YoutubeAPI\YoutubeAPI\
+build_property.ProjectDir = C:\Projects\YoutubeAPI\YoutubeAPI\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

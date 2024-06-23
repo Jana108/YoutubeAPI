@@ -17,7 +17,7 @@ namespace YoutubeAPI.AppLogic
         public static void InitializeSentimentModel()
         {
             _mlContext = new MLContext();
-            _sentimentModel = _mlContext.Model.Load(_modelPath, out var inputSchema);
+            _sentimentModel = _mlContext.Model.Load(_modelPath, out _);
         }
 
         public static SentimentPrediction[] AnalyzeSentiment(SentimentData[] data)
