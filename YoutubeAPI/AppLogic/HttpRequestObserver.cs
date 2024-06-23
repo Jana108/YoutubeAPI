@@ -33,17 +33,16 @@ namespace YoutubeAPI.AppLogic
         {
             if (_cancellationToken.IsCancellationRequested) return;
 
-            Console.WriteLine($"OnNext: {Environment.CurrentManagedThreadId}");
-            _ = HandleRequestAsync(context);
+            var ob = Observable.FromAsync(() => HandleRequestAsync(context));
+            ob.Subscribe();
         }
 
         private async static Task HandleRequestAsync(HttpListenerContext context)
         {
             try
             {
-                Console.WriteLine($"HandleRequestAsync: {Environment.CurrentManagedThreadId}");
                 var rawUrl = context.Request.RawUrl;
-                LoggerAsync.Log(LogLevel.Info, $"Processing request: {rawUrl}");
+                LoggerAsync.Log(LogLevel.Info, $"[Thread: {Environment.CurrentManagedThreadId}] Processing request: {rawUrl}");
 
                 var videoIds = context.Request.QueryString.Get("videoIds")?.Split(',');
 

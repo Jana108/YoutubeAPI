@@ -10,7 +10,7 @@ namespace YoutubeAPI
             try
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine("###### Press ENTER to stop application #####");
+                Console.WriteLine($"###### Main thread {Environment.CurrentManagedThreadId} #####");
                 Console.ResetColor();
 
 

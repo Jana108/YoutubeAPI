@@ -29,10 +29,10 @@ namespace YoutubeAPI.AppLogic
             return new Unsubscriber(_observers, observer);
         }
 
-        public async Task StartListening(CancellationToken cancellationToken)
+        public async Task StartListening(int port, CancellationToken cancellationToken)
         {
-            Console.WriteLine($"StartListening: {Environment.CurrentManagedThreadId}");
             _listener.Start();
+            LoggerAsync.Log(LogLevel.Info, $"[Thread: {Environment.CurrentManagedThreadId}] WebAPI started listening at port {port}");
             try
             {
                 while (!cancellationToken.IsCancellationRequested)

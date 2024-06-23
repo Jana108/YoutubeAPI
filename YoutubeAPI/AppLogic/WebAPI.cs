@@ -28,7 +28,6 @@ namespace YoutubeAPI.AppLogic
 
             try
             {
-                Console.WriteLine($"WebAPI.Start: {Environment.CurrentManagedThreadId}");
                 _httpListenerObservable = new HttpListenerObservable(_url, _port);
                 var httpRequestObserver = new HttpRequestObserver(_cts.Token);
 
@@ -36,9 +35,7 @@ namespace YoutubeAPI.AppLogic
                     .ObserveOn(ThreadPoolScheduler.Instance.DisableOptimizations())
                     .Subscribe(httpRequestObserver);
 
-                LoggerAsync.Log(LogLevel.Info, $"WebAPI started listening at port {_port}");
-
-                Task.Factory.StartNew(() => _httpListenerObservable.StartListening(_cts.Token), _cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                Task.Factory.StartNew(() => _httpListenerObservable.StartListening(_port, _cts.Token), _cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
             }
             catch (Exception ex)
             {
