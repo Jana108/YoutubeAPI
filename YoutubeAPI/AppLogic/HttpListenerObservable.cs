@@ -31,6 +31,7 @@ namespace YoutubeAPI.AppLogic
 
         public async Task StartListening(CancellationToken cancellationToken)
         {
+            Console.WriteLine($"StartListening: {Environment.CurrentManagedThreadId}");
             _listener.Start();
             try
             {

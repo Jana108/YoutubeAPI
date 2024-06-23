@@ -31,85 +31,80 @@ namespace YoutubeAPI.AppLogic
 
         public void OnNext(HttpListenerContext context)
         {
-            if (!_cancellationToken.IsCancellationRequested)
-                HandleRequestAsync(context)
-                    .SubscribeOn(NewThreadScheduler.Default)
-                    .ObserveOn(TaskPoolScheduler.Default)
-                    .Subscribe(
-                        _ => { },
-                        ex => LoggerAsync.Log(LogLevel.Error, $"Error handling request: {ex.Message}")
-                    );
+            if (_cancellationToken.IsCancellationRequested) return;
+
+            Console.WriteLine($"OnNext: {Environment.CurrentManagedThreadId}");
+            _ = HandleRequestAsync(context);
         }
 
-        private static IObservable<Unit> HandleRequestAsync(HttpListenerContext context)
+        private async static Task HandleRequestAsync(HttpListenerContext context)
         {
-            return Observable.FromAsync(async () =>
+            try
             {
-                try
+                Console.WriteLine($"HandleRequestAsync: {Environment.CurrentManagedThreadId}");
+                var rawUrl = context.Request.RawUrl;
+                LoggerAsync.Log(LogLevel.Info, $"Processing request: {rawUrl}");
+
+                var videoIds = context.Request.QueryString.Get("videoIds")?.Split(',');
+
+                if (videoIds == null || videoIds.Length == 0)
                 {
-                    var rawUrl = context.Request.RawUrl;
-                    LoggerAsync.Log(LogLevel.Info, $"Processing request: {rawUrl}");
+                    await ReturnResponseAsync(StatusCode.BadRequest, "Invalid query parameters!", context, rawUrl);
+                    return;
+                }
 
-                    var videoIds = context.Request.QueryString.Get("videoIds")?.Split(',');
+                if (videoIds.Length > 5)
+                {
+                    await ReturnResponseAsync(StatusCode.BadRequest, "Cannot process more than 5 videos with 1 request!", context, rawUrl);
+                    return;
+                }
 
-                    if (videoIds == null || videoIds.Length == 0)
+                bool hasInvalidVideoId = false;
+
+                var tasks = videoIds.Select(async id =>
+                {
+                    try
                     {
-                        await ReturnResponseAsync(StatusCode.BadRequest, "Invalid query parameters!", context, rawUrl);
-                        return;
+                        var service = new YoutubeService();
+                        var comments = await service.GetVideoCommentsAsync(id);
+                        return new { VideoId = id, Comments = comments };
                     }
-
-                    if (videoIds.Length > 5)
+                    catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
                     {
-                        await ReturnResponseAsync(StatusCode.BadRequest, "Cannot process more than 5 videos with 1 request!", context, rawUrl);
-                        return;
+                        LoggerAsync.Log(LogLevel.Error, $"Error processing video ID {id}: {ex.Message}");
+                        hasInvalidVideoId = true;
+                        return new { VideoId = id, Comments = Array.Empty<string>() };
                     }
+                });
 
-                    bool hasInvalidVideoId = false;
+                var allComments = await Task.WhenAll(tasks);
 
-                    var tasks = videoIds.Select(async id =>
+                if (hasInvalidVideoId)
+                {
+                    await ReturnResponseAsync(StatusCode.BadRequest, "One or more video IDs are invalid.", context, rawUrl);
+                    return;
+                }
+
+                var sentimentResults = allComments.SelectMany(video => video.Comments.Select(comment => new { video.VideoId, SentimentData = new SentimentData { SentimentText = comment } })).ToArray();
+                var predictions = sentimentResults.Select(sr => new { sr.VideoId, SentimentPrediction = SentimentAnalysisService.AnalyzeSentiment([sr.SentimentData]).First() });
+
+                var resultsGroupedByVideo = predictions
+                    .GroupBy(p => p.VideoId)
+                    .Select(group => new
                     {
-                        try
-                        {
-                            var service = new YoutubeService();
-                            var comments = await service.GetVideoCommentsAsync(id);
-                            return new { VideoId = id, Comments = comments };
-                        }
-                        catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
-                        {
-                            LoggerAsync.Log(LogLevel.Error, $"Error processing video ID {id}: {ex.Message}");
-                            hasInvalidVideoId = true;
-                            return new { VideoId = id, Comments = Array.Empty<string>() };
-                        }
+                        VideoId = group.Key,
+                        AverageSentiment = group.Any() ? group.Average(p => p.SentimentPrediction.Score) : 0,
+                        Comments = group.Select(p => new { p.SentimentPrediction.SentimentText, p.SentimentPrediction.Score }).ToArray()
                     });
 
-                    var allComments = await Task.WhenAll(tasks);
+                await ReturnResponseAsync(StatusCode.Ok, resultsGroupedByVideo, context, rawUrl);
+            }
+            catch (Exception e)
+            {
+                LoggerAsync.Log(LogLevel.Error, e.Message);
+                await ReturnResponseAsync(StatusCode.InternalError, e.Message, context);
+            }
 
-                    if (hasInvalidVideoId)
-                    {
-                        await ReturnResponseAsync(StatusCode.BadRequest, "One or more video IDs are invalid.", context, rawUrl);
-                        return;
-                    }
-
-                    var sentimentResults = allComments.SelectMany(video => video.Comments.Select(comment => new { video.VideoId, SentimentData = new SentimentData { SentimentText = comment } })).ToArray();
-                    var predictions = sentimentResults.Select(sr => new { sr.VideoId, SentimentPrediction = SentimentAnalysisService.AnalyzeSentiment([sr.SentimentData]).First() });
-
-                    var resultsGroupedByVideo = predictions
-                        .GroupBy(p => p.VideoId)
-                        .Select(group => new
-                        {
-                            VideoId = group.Key,
-                            AverageSentiment = group.Any() ? group.Average(p => p.SentimentPrediction.Score) : 0,
-                            Comments = group.Select(p => new { p.SentimentPrediction.SentimentText, p.SentimentPrediction.Score }).ToArray()
-                        });
-
-                    await ReturnResponseAsync(StatusCode.Ok, resultsGroupedByVideo, context, rawUrl);
-                }
-                catch (Exception e)
-                {
-                    LoggerAsync.Log(LogLevel.Error, e.Message);
-                    await ReturnResponseAsync(StatusCode.InternalError, e.Message, context);
-                }
-            });
         }
 
         private static async Task ReturnResponseAsync(StatusCode status, object content, HttpListenerContext context, string? query = null)

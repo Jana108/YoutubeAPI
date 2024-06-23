@@ -22,23 +22,18 @@ namespace YoutubeAPI.AppLogic
         private static HttpListenerObservable _httpListenerObservable = null!;
         private static IDisposable _observerSubscription = null!;
 
-        static WebAPI()
-        {
-            SentimentAnalysisService.InitializeSentimentModel();
-        }
-
         public static void Start()
         {
             ThreadPool.SetMaxThreads(16, 16);
 
             try
             {
+                Console.WriteLine($"WebAPI.Start: {Environment.CurrentManagedThreadId}");
                 _httpListenerObservable = new HttpListenerObservable(_url, _port);
                 var httpRequestObserver = new HttpRequestObserver(_cts.Token);
 
                 _observerSubscription = _httpListenerObservable
-                    .SubscribeOn(TaskPoolScheduler.Default)
-                    .ObserveOn(TaskPoolScheduler.Default)
+                    .ObserveOn(ThreadPoolScheduler.Instance.DisableOptimizations())
                     .Subscribe(httpRequestObserver);
 
                 LoggerAsync.Log(LogLevel.Info, $"WebAPI started listening at port {_port}");
